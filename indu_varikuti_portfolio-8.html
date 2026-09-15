@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indu Varikuti | Portfolio</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --cyan:#00e5ff;
+  --blue:#1597ff;
+  --pink:#ff2d75;
+  --bg:#04070d;
+  --card:rgba(10,18,31,.68);
+  --line:rgba(0,229,255,.22);
+  --white:#f5fbff;
+  --muted:#9eb1c4;
+}
+*{box-sizing:border-box;margin:0;padding:0;scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--white); font-family:Rajdhani,sans-serif;
+  overflow-x:hidden; line-height:1.6;
+}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:-2}
+.overlay{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(0,229,255,.09),transparent 30%),
+    radial-gradient(circle at 80% 70%,rgba(255,45,117,.08),transparent 28%);
+}
+nav{
+  position:fixed;top:0;left:0;width:100%;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 7vw;background:rgba(2,6,12,.6);
+  backdrop-filter:blur(16px);border-bottom:1px solid var(--line);
+}
+.logo{font:700 1.25rem Orbitron;color:var(--cyan);letter-spacing:2px}
+.logo span{color:var(--pink)}
+.nav-links{display:flex;gap:28px}
+.nav-links a{color:#dce9f2;text-decoration:none;text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
+.nav-links a:hover{color:var(--cyan)}
+section{min-height:100vh;padding:110px 8vw 70px;display:flex;flex-direction:column;justify-content:center}
+.hero{position:relative}
+.badge{
+  width:max-content;padding:8px 15px;border:1px solid var(--line);border-radius:30px;
+  color:var(--cyan);background:rgba(0,229,255,.06);letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:24px;opacity:0;
+}
+h1{font:800 clamp(3rem,8vw,7rem)/.95 Orbitron;letter-spacing:-3px;max-width:1000px;opacity:0}
+.gradient{color:var(--cyan);text-shadow:0 0 25px rgba(0,229,255,.35)}
+.hero p{max-width:700px;color:var(--muted);font-size:1.35rem;margin:28px 0 34px;opacity:0}
+.actions{display:flex;gap:15px;flex-wrap:wrap;opacity:0}
+.btn{
+  display:inline-block;text-decoration:none;padding:13px 25px;border-radius:8px;
+  border:1px solid var(--cyan);color:var(--cyan);font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;transition:.3s;background:rgba(0,229,255,.05)
+}
+.btn:hover{background:var(--cyan);color:#001018;box-shadow:0 0 25px rgba(0,229,255,.35)}
+.btn.secondary{border-color:rgba(255,255,255,.25);color:#fff}
+.section-label{color:var(--cyan);letter-spacing:4px;text-transform:uppercase;font-weight:700;margin-bottom:10px}
+h2{font:700 clamp(2rem,4vw,3.5rem) Orbitron;margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.card{
+  background:var(--card);border:1px solid rgba(255,255,255,.1);border-radius:18px;
+  padding:28px;backdrop-filter:blur(14px);box-shadow:0 15px 45px rgba(0,0,0,.25);
+  transform:translateY(35px);opacity:0;transition:.35s;
+}
+.card:hover{transform:translateY(-8px);border-color:var(--cyan);box-shadow:0 15px 45px rgba(0,229,255,.12)}
+.card h3{font:700 1.25rem Orbitron;color:var(--cyan);margin-bottom:12px}
+.card p,.card li{color:var(--muted);font-size:1.08rem}
+.about-text{font-size:1.25rem;color:#d8e5ee;max-width:900px}
+.skills{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+.skill{
+  padding:10px 17px;border:1px solid rgba(0,229,255,.25);border-radius:30px;
+  background:rgba(0,229,255,.05);color:#e7faff
+}
+.timeline{border-left:2px solid var(--line);padding-left:25px}
+.timeline .card{margin-bottom:18px}
+.contact-box{text-align:center;max-width:850px;margin:auto}
+.contact-box p{font-size:1.25rem;color:var(--muted);margin-bottom:25px}
+.contact-info{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.contact-info a{color:var(--cyan);text-decoration:none}
+footer{text-align:center;padding:25px;color:#708394;border-top:1px solid rgba(255,255,255,.08)}
+@media(max-width:700px){
+ nav{padding:16px 5vw}.nav-links{display:none}
+ section{padding:100px 6vw 60px}.grid{grid-template-columns:1fr}
+ h1{letter-spacing:-1px}.hero p{font-size:1.15rem}
+}
+</style>
+</head>
+
+<body>
+<canvas id="bg"></canvas><div class="overlay"></div>
+
+<nav>
+  <div class="logo">INDU<span>.</span></div>
+  <div class="nav-links">
+    <a href="#home">Home</a><a href="#about">About</a><a href="#skills">Skills</a>
+    <a href="#education">Education</a><a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<section id="home" class="hero">
+  <div class="badge">Welcome to my portfolio</div>
+  <h1>INDU<br><span class="gradient">VARIKUTI</span></h1>
+  <p>Hardworking, reliable and motivated to learn, grow and contribute positively in a professional environment.</p>
+  <div class="actions">
+    <a class="btn" href="#about">Explore Portfolio</a>
+    <a class="btn secondary" href="#contact">Contact Me</a>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-label">01 / About</div>
+  <h2>Professional Profile</h2>
+  <div class="card" style="opacity:1;transform:none">
+    <p class="about-text">
+      I am a hardworking and reliable individual focused on going above and beyond to support teams
+      and serve customers. I am motivated to continue learning and growing professionally, work well
+      with team members, and value dependable, punctual and responsible work.
+    </p>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-label">02 / Capabilities</div>
+  <h2>My Skills</h2>
+  <div class="grid">
+    <div class="card"><h3>Teamwork</h3><p>Collaborating effectively with team members and contributing to shared goals.</p></div>
+    <div class="card"><h3>Analytical Thinking</h3><p>Approaching tasks carefully, understanding problems and working toward practical solutions.</p></div>
+    <div class="card"><h3>Research</h3><p>Learning new information and exploring topics to improve knowledge and understanding.</p></div>
+    <div class="card"><h3>Training</h3><p>Open to learning, training and developing new professional abilities.</p></div>
+    <div class="card"><h3>Motivation</h3><p>Positive attitude toward learning, responsibility and continuous professional growth.</p></div>
+  </div>
+  <div class="skills">
+    <span class="skill">Teamwork</span><span class="skill">Analytical Thinking</span>
+    <span class="skill">Research</span><span class="skill">Training</span><span class="skill">Motivation</span>
+  </div>
+</section>
+
+<section id="education">
+  <div class="section-label">03 / Education</div>
+  <h2>Academic Background</h2>
+  <div class="timeline">
+    <div class="card">
+      <h3>High School Diploma</h3>
+      <p><strong style="color:#fff">Z P H School, Nidanamuru</strong></p>
+      <p>Completed: March 2025</p>
+    </div>
+  </div>
+</section>
+
+<section id="hobbies">
+  <div class="section-label">04 / Personal</div>
+  <h2>Interests & Languages</h2>
+  <div class="grid">
+    <div class="card"><h3>Hobbies</h3><p>Learning new things</p><p>Going out with friends</p></div>
+    <div class="card"><h3>Languages</h3><p>English — Intermediate (B1)</p><p>Telugu — A1</p></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="card contact-box">
+    <div class="section-label">05 / Contact</div>
+    <h2>Let's Connect</h2>
+    <p>If you would like to get in touch, you can reach me using the contact details below.</p>
+    <div class="contact-info">
+      <a href="tel:+919515027705">📞 9515027705</a>
+      <a href="mailto:induvarikuti4526@gmail.com">✉ induvarikuti4526@gmail.com</a>
+    </div>
+    <p style="margin-top:20px">📍 Vijayawada, Andhra Pradesh</p>
+  </div>
+</section>
+
+<footer>© 2026 Indu Varikuti · Personal Portfolio</footer>
+
+<script>
+/* Three.js animated particle background */
+const canvas=document.getElementById("bg");
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,.1,1000);
+camera.position.z=28;
+const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+renderer.setSize(innerWidth,innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+
+const geo=new THREE.BufferGeometry();
+const count=1800;
+const pos=new Float32Array(count*3);
+for(let i=0;i<count*3;i++) pos[i]=(Math.random()-.5)*100;
+geo.setAttribute("position",new THREE.BufferAttribute(pos,3));
+const mat=new THREE.PointsMaterial({size:.045,color:0x00e5ff,transparent:true,opacity:.7});
+const stars=new THREE.Points(geo,mat);scene.add(stars);
+
+let mx=0,my=0;
+addEventListener("mousemove",e=>{
+ mx=(e.clientX/innerWidth-.5)*2;
+ my=(e.clientY/innerHeight-.5)*2;
+});
+function animate(){
+ requestAnimationFrame(animate);
+ stars.rotation.y+=.0007; stars.rotation.x+=.00025;
+ camera.position.x+=(mx*2-camera.position.x)*.025;
+ camera.position.y+=(-my*2-camera.position.y)*.025;
+ camera.lookAt(0,0,0);renderer.render(scene,camera);
+}
+animate();
+addEventListener("resize",()=>{
+ camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+ renderer.setSize(innerWidth,innerHeight);
+});
+
+/* Entrance and scroll reveal */
+window.addEventListener("load",()=>{
+ gsap.to(".badge",{opacity:1,y:0,duration:.8});
+ gsap.to("h1",{opacity:1,y:0,duration:1,delay:.15});
+ gsap.to(".hero p",{opacity:1,y:0,duration:.9,delay:.35});
+ gsap.to(".actions",{opacity:1,y:0,duration:.9,delay:.5});
+});
+const observer=new IntersectionObserver(entries=>{
+ entries.forEach(e=>{
+   if(e.isIntersecting){
+     gsap.to(e.target,{opacity:1,y:0,duration:.8,ease:"power3.out"});
+     observer.unobserve(e.target);
+   }
+ });
+},{threshold:.12});
+document.querySelectorAll(".card").forEach(x=>observer.observe(x));
+</script>
+</body>
+</html>
